@@ -4,18 +4,17 @@ import { useNavigate } from 'react-router';
 import './creerReservation.css';
 import Button from '../components/button';
 
-const API_URL = 'http://localhost:3001'; // adapte le port si besoin
+const API_URL = 'http://localhost:3000'; // adapte le port si besoin
 
 //--------- Types ---------
 interface Salle {
-  id: string;
-  label: string;
-  nom: string;
+  id: number;
+  name: string;
   capacity: number;
-  site: string;
-  building: string;
-  floor: number;
-  material: string[];
+  // site: string;
+  // building: string;
+  // floor: number;
+  // material: string[];
 }
 
 //--------- Component ---------
@@ -95,7 +94,7 @@ function CreerReservation() {
             <option value="">-- Choisir une salle --</option>
             {salles.map((s) => (
               <option key={s.id} value={s.id}>
-                {s.nom} — Salle {s.label} ({s.building}, étage {s.floor})
+                — Salle {s.name}
               </option>
             ))}
           </select>
