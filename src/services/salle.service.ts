@@ -9,10 +9,11 @@ export async function createSalle(salle: object) {
   return response.json();
 }
 
-const API_URL = "http://localhost:3001/salles";
+const API_URL = "http://localhost:3000/salles";
 
 export async function getSalles() {
   const response = await fetch(API_URL);
+  console.log(response);
 
   if (!response.ok) {
     throw new Error("Impossible de récupérer les salles");

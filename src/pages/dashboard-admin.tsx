@@ -5,7 +5,7 @@ import Salle from '../components/salle';
 import { useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'http://localhost:3000';
 
 interface SalleData {
   id: string;
@@ -40,7 +40,7 @@ function DashboardAdmin(){
         <div className='grid'>
           {salles.map((salle, index) => (
             <div key={salle.id} className={`div${index + 1}`}>
-              <Salle label={salle.label} />
+              <Salle label={salle.name} />
             </div>
           ))}
         </div>

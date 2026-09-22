@@ -6,10 +6,10 @@ import { getSalles } from "../services/salle.service";
 import { useNavigate } from 'react-router';
 
 type Salle = {
-  label: string;
+  name: string;
   capacity: string;
-  site: string;
-  floor: number;
+  // site: string;
+  // floor: number;
 };
 
 function DashboardFormateur() {
@@ -51,15 +51,15 @@ function DashboardFormateur() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {salles.map((salle) => (
             <div
-              key={salle.label}
+              key={salle.name}
               className="salle-card"
             >
               <h3 className="salle-title">
-                {salle.label}
+                {salle.name}
               </h3>
-              <p className="salle-info">
+              {/*<p className="salle-info">
                 Numéro : <strong>{salle.floor}</strong>
-              </p>
+              </p>*/}
               <p className="salle-info">
                 Capacité : <strong>{salle.capacity} personnes</strong>
               </p>
