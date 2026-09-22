@@ -1,12 +1,25 @@
-interface Salles {
-  label: string;
+interface Salle {
+  id: number;
+  name: string;
+  capacity: number;
 }
 
-function Salle({ label }: Salles) {
+function Salle({ salle }: Salle) {
   return (
-    <div>
-      <p>Salle : {label}</p>
-    </div>
+    <div
+              key={salle.id}
+              className="salle-card"
+            >
+              <h3 className="salle-title">
+                {salle.name}
+              </h3>
+              {/*<p className="salle-info">
+                Numéro : <strong>{salle.floor}</strong>
+              </p>*/}
+              <p className="salle-info">
+                Capacité : <strong>{salle.capacity} personnes</strong>
+              </p>
+            </div>
   );
 }
 

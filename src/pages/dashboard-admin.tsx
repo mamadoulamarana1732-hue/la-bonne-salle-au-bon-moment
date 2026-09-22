@@ -7,20 +7,20 @@ import { useEffect, useState } from 'react';
 
 const API_URL = 'http://localhost:3000';
 
-interface SalleData {
-  id: string;
-  label: string;
+interface Salle {
+  id: number;
+  name: string;
   capacity: number;
-  site: string;
-  building: string;
-  floor: number;
-  material: string[];
+  // site: string;
+  // building: string;
+  // floor: number;
+  // material: string[];
 }
 
 //--------- Component ---------
 function DashboardAdmin(){
   const navigate = useNavigate();
-   const [salles, setSalles] = useState<SalleData[]>([]);
+   const [salles, setSalles] = useState<Salle[]>([]);
 
    useEffect(() => {
     fetch(`${API_URL}/salles`)
@@ -38,10 +38,8 @@ function DashboardAdmin(){
         </header>
         <main>
         <div className='grid'>
-          {salles.map((salle, index) => (
-            <div key={salle.id} className={`div${index + 1}`}>
-              <Salle label={salle.name} />
-            </div>
+          {salles.map((salle) => (
+            <Salle salle={salle} />
           ))}
         </div>
       </main>

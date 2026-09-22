@@ -12,20 +12,20 @@ import Button from '../components/button';
 //----------- Logic -----------
 // Validation schema
 const creerSalleSchema = z.object({
-    label: z
+    name: z
         .string()
         .min(3, "Le nom de la salle doit avoir au minimum 3 caractères."),
     capacity: z
         .number()
         .positive("La capacité doit être supérieure à 0."),
-    site: z
-        .string()
-        .min(3, "Le site doit avoir au minimum 3 caractères."),
-    building: z
-        .string()
-        .min(1, "Le bâtiment doit avoir au minimum 1 caractère."),
-    floor: z.number(),
-    material: z.string().optional(),
+    // site: z
+    //     .string()
+    //     .min(3, "Le site doit avoir au minimum 3 caractères."),
+    // building: z
+    //     .string()
+    //     .min(1, "Le bâtiment doit avoir au minimum 1 caractère."),
+    // floor: z.number(),
+    // material: z.string().optional(),
 });
 
 type CreerSalleFormData = z.infer<typeof creerSalleSchema>;
@@ -43,11 +43,11 @@ function CreerSalle() {
     });
 
     async function onSubmit(data: CreerSalleFormData) {
-        const material = data.material
-            ? data.material.split(',').map((m) => m.trim())
-            : [];
+        // const material = data.material
+        //     ? data.material.split(',').map((m) => m.trim())
+        //     : [];
 
-        await createSalle({ ...data, material });
+        await createSalle({ ...data/*, material*/ });
         reset();
 
         setMessage("Salle ajoutée");
@@ -67,8 +67,8 @@ function CreerSalle() {
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div>
                             <label>Nom de salle</label>
-                            <input type="text" {...register("label")} placeholder='Salle informatique'/>
-                            {errors.label && <p>{errors.label.message}</p>}
+                            <input type="text" {...register("name")} placeholder='Salle informatique'/>
+                            {errors.name && <p>{errors.name.message}</p>}
                         </div>
 
                         <div>
@@ -77,7 +77,7 @@ function CreerSalle() {
                             {errors.capacity && <p>{errors.capacity.message}</p>}
                         </div>
 
-                        <div>
+                        {/*<div>
                             <label>Matériel disponible</label>
                             <input type="text" {...register("material")} />
                         </div>
@@ -98,7 +98,7 @@ function CreerSalle() {
                             <label>Etage</label>
                             <input type="number" {...register("floor", { valueAsNumber: true })} min={0} placeholder='3'/>
                             {errors.floor && <p>{errors.floor.message}</p>}
-                        </div>
+                        </div>*/}
 
                         <button type="submit">Valider</button>
                         {message && <p>{message}</p>}
