@@ -4,33 +4,24 @@ import { useNavigate } from 'react-router';
 import './creerReservation.css';
 import Button from '../components/button';
 
-const API_URL = 'http://localhost:3001'; // adapte le port si besoin
 
 //--------- Types ---------
 interface Salle {
-  id: string;
+  _id: string;
   label: string;
   capacity: number;
   site: string;
   building: string;
   floor: number;
-  material: string[];
 }
 
 interface Reservation {
-  id: string;
+  _id: string;
   salleId: string;
   date: string;
   heureDebut: string;
   heureFin: string;
   motif: string;
-  userId?: string;
-}
-
-interface CurrentUser {
-  id: string;
-  email: string;
-  role: string;
 }
 
 // Vérifie qu'aucune AUTRE réservation (idAExclure = celle en cours de modification) n'occupe déjà la même salle sur le même créneau.
@@ -43,7 +34,7 @@ function estDisponible(
   idAExclure: string,
 ): boolean {
   return !reservations.some((r) =>
-    r.id !== idAExclure &&
+    r._id !== idAExclure &&
     r.salleId === salleId &&
     r.date === date &&
     heureDebut < r.heureFin &&
@@ -54,10 +45,6 @@ function estDisponible(
 //--------- Component ---------
 function ModifierReservation() {
   const navigate = useNavigate();
-
-  const currentUser: CurrentUser | null = JSON.parse(
-    localStorage.getItem('user') || 'null',
-  );
 
   const [salles, setSalles] = useState<Salle[]>([]);
   const [reservations, setReservations] = useState<Reservation[]>([]);
@@ -73,27 +60,23 @@ function ModifierReservation() {
   const [succes, setSucces] = useState('');
 
   useEffect(() => {
-    fetch(`${API_URL}/salles`)
+    fetch(`http://localhost:3000/api/salles`)
       .then((res) => res.json())
       .then((data) => setSalles(data))
       .catch(() => setErreur('Impossible de charger la liste des salles'));
 
-    fetch(`${API_URL}/reservations`)
+    fetch(`http://localhost:3000/api/reservations`)
       .then((res) => res.json())
       .then((data) => setReservations(data))
       .catch(() => setErreur('Impossible de charger la liste des réservations'));
   }, []);
-
-  const reservationsModifiables = reservations.filter(
-    (r) => currentUser?.role.toLowerCase() === 'admin' || r.userId === currentUser?.id,
-  );
 
   function selectionnerReservation(id: string) {
     setReservationId(id);
     setErreur('');
     setSucces('');
 
-    const reservation = reservations.find((r) => r.id === id);
+    const reservation = reservations.find((r) => r._id === id);
     if (!reservation) return;
 
     setSalleId(reservation.salleId);
@@ -107,24 +90,14 @@ function ModifierReservation() {
     setErreur('');
     setSucces('');
 
-    if (!currentUser) {
-      setErreur('Vous devez être connecté pour modifier une réservation.');
-      return;
-    }
-
     if (!reservationId) {
       setErreur('Merci de sélectionner une réservation à modifier.');
       return;
     }
 
-    const reservation = reservations.find((r) => r.id === reservationId);
+    const reservation = reservations.find((r) => r._id === reservationId);
     if (!reservation) {
       setErreur('Réservation introuvable.');
-      return;
-    }
-
-    if (reservation.userId !== currentUser.id && currentUser.role.toLowerCase() !== 'admin') {
-      setErreur("Vous n'êtes pas autorisé à modifier cette réservation.");
       return;
     }
 
@@ -152,7 +125,7 @@ function ModifierReservation() {
     }
 
     try {
-      const res = await fetch(`${API_URL}/reservations/${reservationId}`, {
+      const res = await fetch(`http://localhost:3000/api/reservations/update/${reservationId}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -175,31 +148,11 @@ function ModifierReservation() {
     }
   };
 
-  if (!currentUser) {
-    return (
-      <>
-        <header>
-          <div>
-            <Button description="retour" onClick={() => navigate('/')} />
-          </div>
-        </header>
-        <main>
-          <p>Vous devez être connecté pour modifier une réservation.</p>
-        </main>
-      </>
-    );
-  }
-
   return (
     <>
       <header>
         <div>
-          <Button
-            description="retour"
-            onClick={() =>
-              navigate(currentUser.role.toLowerCase() === 'admin' ? '/dashboardAdmin' : '/dashboardFormateur')
-            }
-          />
+          <Button description="retour" onClick={() => navigate('/')} />
         </div>
       </header>
       <main>
@@ -213,10 +166,10 @@ function ModifierReservation() {
             onChange={(e) => selectionnerReservation(e.target.value)}
           >
             <option value="">-- Choisir une réservation --</option>
-            {reservationsModifiables.map((r) => {
-              const salle = salles.find((s) => s.id === r.salleId);
+            {reservations.map((r) => {
+              const salle = salles.find((s) => s._id === r.salleId);
               return (
-                <option key={r.id} value={r.id}>
+                <option key={r._id} value={r._id}>
                   {salle ? salle.label : r.salleId} — {r.date} {r.heureDebut}-{r.heureFin}
                 </option>
               );
@@ -232,7 +185,7 @@ function ModifierReservation() {
                 onChange={(e) => setSalleId(e.target.value)}
               >
                 {salles.map((s) => (
-                  <option key={s.id} value={s.id}>
+                  <option key={s._id} value={s._id}>
                     Salle {s.label} ({s.building}, étage {s.floor})
                   </option>
                 ))}

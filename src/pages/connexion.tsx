@@ -46,7 +46,7 @@ function Connexion() {
     return (
         <>
             <div>
-                <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Facilis facere doloremque ullam aspernatur perspiciatis quod laborum minus enim eligendi consequuntur?</p>
+                <h2>Authentification</h2> <br />
                 <div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div>

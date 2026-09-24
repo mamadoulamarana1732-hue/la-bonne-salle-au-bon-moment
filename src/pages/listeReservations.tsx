@@ -1,14 +1,13 @@
-// ---------- Imports --------
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router';
 import './listeReservations.css';
 import Button from '../components/button';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = 'http://localhost:3000/api';
 
 //--------- Types ---------
 interface Reservation {
-  id: string;
+  _id: string;
   salleId: string;
   date: string;
   heureDebut: string;
@@ -49,12 +48,12 @@ function ListeReservations() {
     return salle ? salle.label : salleId;
 }
 
-  async function annulerReservation(id: string) {
+  async function annulerReservation(_id: string) {
     const confirme = window.confirm('Annuler cette réservation ?');
     if (!confirme) return;
 
     try {
-      const res = await fetch(`${API_URL}/reservations/${id}`, {
+      const res = await fetch(`${API_URL}/reservations/delete/${_id}`, {
         method: 'DELETE',
       });
 
@@ -62,7 +61,7 @@ function ListeReservations() {
         throw new Error('Erreur lors de la suppression');
       }
 
-      setReservations((prev) => prev.filter((r) => r.id !== id));
+      setReservations((prev) => prev.filter((r) => r._id !== _id));
     } catch (err) {
       setErreur("La réservation n'a pas pu être annulée.");
     }
@@ -86,7 +85,7 @@ function ListeReservations() {
           ) : (
             <ul>
               {reservations.map((r) => (
-                <li key={r.id} className="reservation-item">
+                <li key={r._id} className="reservation-item">
                   <span>
                     <strong>{getNomSalle(r.salleId)}</strong> — {r.date} de{' '}
                     {r.heureDebut} à {r.heureFin}
@@ -94,7 +93,7 @@ function ListeReservations() {
                   </span>
                   <Button
                     description="annuler"
-                    onClick={() => annulerReservation(r.id)}
+                    onClick={() => annulerReservation(r._id)}
                   />
                 </li>
               ))}
