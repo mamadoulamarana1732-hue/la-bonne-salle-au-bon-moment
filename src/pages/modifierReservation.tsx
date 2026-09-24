@@ -143,6 +143,7 @@ function ModifierReservation() {
       }
 
       setSucces('Réservation modifiée avec succès.');
+      navigate('/listeReservations');
     } catch {
       setErreur("La réservation n'a pas pu être modifiée.");
     }

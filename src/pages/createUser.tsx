@@ -71,7 +71,6 @@ function CreateUserForm() {
           )}
         </div>
 
-        {/* Nom */}
         <div className="mb-4">
           <label className="block mb-2">
             Nom
@@ -150,8 +149,6 @@ function CreateUserForm() {
             </p>
           )}
         </div>
-
-        {/* Bouton */}
         <button
           type="submit"
           className="bg-blue-600 text-white px-5 py-2 rounded-lg hover:bg-blue-700"

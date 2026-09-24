@@ -1,11 +1,9 @@
-
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useNavigate } from 'react-router';
 import { createSalle } from '../services/salle.service';
 import './creerSalle.css';
 import Button from '../components/button';
-
 
 type CreerSalleFormData = {
     label: string;
@@ -29,6 +27,7 @@ function CreerSalle() {
             await createSalle(data);
             reset();
             setMessage("Salle ajoutée");
+            navigate('/dashboardAdmin');
         } catch (error) {
             console.error(error);
             setMessage("Erreur lors de l'ajout de la salle");
@@ -68,7 +67,7 @@ function CreerSalle() {
 
                         <div>
                             <label>Etage</label>
-                            <input type="number" {...register("floor", { valueAsNumber: true })} min={0} placeholder='3' />
+                            <input type="number" {...register("floor", { valueAsNumber: true })} placeholder='3' />
                         </div>
 
                         <button type="submit">Valider</button>

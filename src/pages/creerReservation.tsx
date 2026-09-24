@@ -67,7 +67,7 @@ function CreerReservation() {
         throw new Error('Erreur lors de la création de la réservation');
       }
 
-      navigate('/DashboardAdmin');
+      navigate('/listeReservations');
     } catch (err) {
       setErreur("La réservation n'a pas pu être créée.");
     }
