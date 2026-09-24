@@ -9,10 +9,10 @@ export async function checkEmailMdp(
     if (user.email === email && user.password === password) {
       localStorage.setItem('user', JSON.stringify({ id: user.id, email: user.email, role: user.role })); // AJOUT
       switch(user.role.toLowerCase()) {
-        case "formateur":
+        case "Formateur":
           window.location.replace("/dashboardFormateur");
           break;
-        case "admin":
+        case "Admin":
           window.location.replace("/dashboardAdmin");
           break;
       } 

@@ -50,7 +50,6 @@ function CreateUserForm() {
     <div className="bg-gray-400 p-6 rounded-lg">
       <form onSubmit={handleSubmit(onSubmit)}>
 
-        {/* Type utilisateur */}
         <div className="mb-4">
           <label className="block mb-2">
             Type utilisateur
@@ -60,9 +59,9 @@ function CreateUserForm() {
             {...register("role")}
             className="border border-gray-300 p-2 rounded"
           >
-            <option value="">Sélectionnez un utilisateur</option>
-            <option value="Admin">Admin</option>
+
             <option value="Formateur">Formateur</option>
+            <option value="Admin">Admin</option>
           </select>
 
           {errors.role && (

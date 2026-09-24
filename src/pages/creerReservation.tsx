@@ -4,24 +4,21 @@ import { useNavigate } from 'react-router';
 import './creerReservation.css';
 import Button from '../components/button';
 
-const API_URL = 'http://localhost:3001'; // adapte le port si besoin
+// const API_URL = 'http://localhost:3000/api/reservations/create';
 
 //--------- Types ---------
 interface Salle {
-  id: string;
+  _id: string;
   label: string;
-  nom: string;
   capacity: number;
   site: string;
   building: string;
   floor: number;
-  material: string[];
 }
 
 //--------- Component ---------
 function CreerReservation() {
   const navigate = useNavigate();
-  const currentUser = JSON.parse(localStorage.getItem('user') || 'null'); // AJOUT
 
   const [salles, setSalles] = useState<Salle[]>([]);
   const [salleId, setSalleId] = useState('');
@@ -32,7 +29,7 @@ function CreerReservation() {
   const [erreur, setErreur] = useState('');
 
   useEffect(() => {
-    fetch(`${API_URL}/salles`)
+    fetch('http://localhost:3000/api/salles/')
       .then((res) => res.json())
       .then((data) => setSalles(data))
       .catch(() => setErreur('Impossible de charger la liste des salles'));
@@ -52,7 +49,7 @@ function CreerReservation() {
     }
 
     try {
-      const res = await fetch(`${API_URL}/reservations`, {
+      const res = await fetch('http://localhost:3000/api/reservations/create', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -61,7 +58,8 @@ function CreerReservation() {
           heureDebut,
           heureFin,
           motif,
-          userId: currentUser?.id, // AJOUT
+          //userId: currentUser?.id, // AJOUT
+          // userId: currentUser?.id==="6a9a9480c8edf4a99b032c5e"
         }),
       });
 
@@ -87,18 +85,13 @@ function CreerReservation() {
           <h1>Ajouter une réservation</h1>
 
           <label htmlFor="salle">Salle</label>
-          <select
-            id="salle"
-            value={salleId}
-            onChange={(e) => setSalleId(e.target.value)}
-          >
-            <option value="">-- Choisir une salle --</option>
-            {salles.map((s) => (
-              <option key={s.id} value={s.id}>
-                {s.nom} — Salle {s.label} ({s.building}, étage {s.floor})
-              </option>
-            ))}
-          </select>
+        <select onChange={(e) => setSalleId(e.target.value)}>
+              {salles.map((salle) => (
+                <option key={salle._id} value={salle._id}>
+                  Salle {salle.label} (Bâtiment {salle.building}, étage {salle.floor})
+                </option>
+              ))}
+        </select>
 
           <label htmlFor="date">Date</label>
           <input

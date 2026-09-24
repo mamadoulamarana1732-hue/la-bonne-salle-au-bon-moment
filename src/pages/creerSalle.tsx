@@ -7,7 +7,6 @@ import './creerSalle.css';
 import Button from '../components/button';
 
 
-//----------- Logic -----------
 type CreerSalleFormData = {
     label: string;
     capacity: number;
