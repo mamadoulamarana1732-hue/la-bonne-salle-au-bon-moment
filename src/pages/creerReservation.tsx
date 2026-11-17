@@ -69,7 +69,7 @@ function CreerReservation() {
 
       navigate('/listeReservations');
     } catch (err) {
-      setErreur("La réservation n'a pas pu être créée.");
+      setErreur("La réservation n'a pas pu être créée." + err);
     }
   };
 
@@ -85,13 +85,13 @@ function CreerReservation() {
           <h1>Ajouter une réservation</h1>
 
           <label htmlFor="salle">Salle</label>
-        <select onChange={(e) => setSalleId(e.target.value)}>
-              {salles.map((salle) => (
-                <option key={salle._id} value={salle._id}>
-                  Salle {salle.label} (Bâtiment {salle.building}, étage {salle.floor})
-                </option>
-              ))}
-        </select>
+          <select onChange={(e) => setSalleId(e.target.value)}>
+            {salles.map((salle) => (
+              <option key={salle._id} value={salle._id}>
+                Salle {salle.label} (Bâtiment {salle.building}, étage {salle.floor})
+              </option>
+            ))}
+          </select>
 
           <label htmlFor="date">Date</label>
           <input

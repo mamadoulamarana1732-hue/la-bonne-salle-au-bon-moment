@@ -27,11 +27,9 @@ function ListeReservations() {
   const [salles, setSalles] = useState<Salle[]>([]);
   const [erreur, setErreur] = useState('');
 
-  useEffect(() => {
-    fetchData();
-  }, []);
 
-   function fetchData() {
+
+  function fetchData() {
     Promise.all([
       fetch(`${API_URL}/reservations`).then((res) => res.json()),
       fetch(`${API_URL}/salles`).then((res) => res.json()),
@@ -43,10 +41,14 @@ function ListeReservations() {
       .catch(() => setErreur('Impossible de charger les réservations.'));
   }
 
+  useEffect(() => {
+    fetchData();
+  }, []);
+
   function getNomSalle(salleId: string) {
     const salle = salles.find((s) => s.id === salleId);
     return salle ? salle.label : salleId;
-}
+  }
 
   async function annulerReservation(_id: string) {
     const confirme = window.confirm('Annuler cette réservation ?');
@@ -63,7 +65,7 @@ function ListeReservations() {
 
       setReservations((prev) => prev.filter((r) => r._id !== _id));
     } catch (err) {
-      setErreur("La réservation n'a pas pu être annulée.");
+      setErreur("La réservation n'a pas pu être annulée." + err);
     }
   }
 
