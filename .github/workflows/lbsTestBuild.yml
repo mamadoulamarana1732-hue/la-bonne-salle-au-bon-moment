@@ -11,6 +11,9 @@ jobs:
         
       - name: run linter
         run: npm run lint
+
+      - name: run test
+        run: npm test
       
       - name: run build
         run: npm run build

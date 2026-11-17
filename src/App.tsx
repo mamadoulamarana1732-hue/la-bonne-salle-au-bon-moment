@@ -6,8 +6,9 @@ function App() {
 
   return (
     <BrowserRouter>
+      <h1>Test</h1>
       <AppRoutes />
-    </BrowserRouter>   
+    </BrowserRouter>
   )
 }
 export default App;
