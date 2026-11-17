@@ -79,7 +79,7 @@ function Agenda() {
 	//---Render 
 	return (
 		<>
-			<select onChange={() => setSchedule(event.target.value)}>
+			<select onChange={() => setSchedule((document.getElementById("salleSelect") as HTMLSelectElement).value)} id="salleSelect">
 				<option>--Veuillez choisir une salle--</option>
 				{salles.map((salle, index) => (
 					<option key={index} value={salle.id}>{salle.label}</option>
