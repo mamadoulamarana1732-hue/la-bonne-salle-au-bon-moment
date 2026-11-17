@@ -6,8 +6,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+
       - name: install dependencies
-        run: npm install
+        run: npm ci
         
       - name: run linter
         run: npm run lint
