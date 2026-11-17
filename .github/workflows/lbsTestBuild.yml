@@ -23,10 +23,6 @@ jobs:
       - name: run build
         run: npm run build
 
-  Artefacts:
-    needs: LBSTestBuild
-    runs-on: ubuntu-latest
-    steps:
       - name: Upload build artifacts
         uses: actions/upload-artifact@v6
         with:
